@@ -1,5 +1,6 @@
 # Topic1: Dimensionality Reduction
 2022_Fall_Business Analytics(IME654)
+
 첫번째 주제인 차원축소 Tutorial입니다. (김도현 2022020651)
 
 Tutorial은 다음과 같은 환경에서 수행하였습니다.
