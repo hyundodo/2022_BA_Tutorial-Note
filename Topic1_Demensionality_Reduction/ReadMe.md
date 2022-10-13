@@ -115,7 +115,7 @@ def get_eigen(data):
 
     return X, eigvalues, eigvectors
 ```
-기저에 데이터들을 사영하여, 새로운 변수를 추출한다. 기저의 개수는 고유값을 확인하거나, 도메인 전문가의 조언에 따라 결정한다.
+기저에 데이터들을 사영하여, 새로운 변수를 추출한다.
 ```
 def express_var(eigvalues, eigvectors=None, n_eig=10):
     for i in range(n_eig):
