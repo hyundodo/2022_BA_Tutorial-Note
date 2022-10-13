@@ -103,7 +103,7 @@ python PCA.py
 ```
 
 먼저 데이터를 입력받아 정규화를 수행하고 주성분을 구한다.
-```
+```python
 def get_eigen(data):
     # data centering
     X = (data - np.mean(data, axis=0)) / np.std(data, axis=0)
@@ -116,7 +116,7 @@ def get_eigen(data):
     return X, eigvalues, eigvectors
 ```
 기저에 데이터들을 사영하여, 새로운 변수를 추출한다.
-```
+```python
 def express_var(eigvalues, eigvectors=None, n_eig=10):
     for i in range(n_eig):
         exp_var = np.sum(eigvalues[:i+1])*100 / np.sum(eigvalues)
@@ -132,7 +132,7 @@ def projection(X, eigvalues, eigvectors, n_components=2):
     return Y
 ```
 wine 데이터셋을 가지고 tutorial demo를 수행해본다.
-```
+```python
 # demo with iris dataset
 def main():
     data = load_iris()
@@ -167,7 +167,7 @@ MDS의 과정은 다음과 같다.
 python MDS.py
 ```
 주어진 데이터에 대해 거리 matrix를 구한다.
-```
+```python
 def distance_matrix(input):
     # step1: construct distance matrix
     # generate matrix
@@ -180,7 +180,7 @@ def distance_matrix(input):
     return dis_matrix
 ```
 거리 정보를 최대한 보존할 수 있는 좌표계를 구한다. HAH 계산으로 centering을 계산한 뒤, 고유값 분해과정으로 고유벡터를 구한다. 마지막으로 원하는 차원 수로 축소를 수행한다.
-```
+```python
 def mds(distance_matrix, dim=2):
     # step2: extract the coordinates that preserve the distance information
     # compute inner product matrix B 
@@ -212,7 +212,7 @@ def mds(distance_matrix, dim=2):
     return coordinate 
 ```
 iris 데이터셋으로 tutorial을 실행해본다.
-```
+```python
 def main():
     data = load_iris()
     input_x = data.data
@@ -256,7 +256,7 @@ ISOMAP의 과정은 다음과 같다.
 python ISOMAP.py
 ```
 각 점의 k개의 가까운 이웃 matrix를 구축한다.
-```
+```python
 def distance_mat(X, n_neighbors=6):
     dis_matrix = np.zeros((len(X), len(X)))
     # compute Euclidean Distance
@@ -273,7 +273,7 @@ def distance_mat(X, n_neighbors=6):
     return neighbors
 ```
 이후 두 점 사이의 최단 경로 그래프를 계산한다. (최단 경로 그래프 계산은 sklearn의 함수를 사용했습니다.)
-```
+```python
 def isomap(data, n_components=2, n_neighbors=6):
     # Compute distance matrix
     neighbors = distance_mat(data, n_neighbors)
@@ -289,7 +289,7 @@ def isomap(data, n_components=2, n_neighbors=6):
 ```
 
 sklearn을 사용해서 manifold인 swiss roll 데이터를 생성한 뒤, 이를 isomap으로 차원축소한다.
-```
+```python
 # demo
 def main():
     input_x, color = datasets.make_swiss_roll(n_samples=1500)
@@ -332,7 +332,7 @@ LLE의 과정은 다음과 같다.
 python LLE.py
 ```
 앞서 ISOMAP과 동일하게 주변 이웃 행렬을 구축한 뒤, 이를 LLE 알고리즘에 사용한다.
-```
+```python
 def LLE(data, neighbors_idx, n_components=2):
     n = data.shape[0]
     w = np.zeros((n, n))
