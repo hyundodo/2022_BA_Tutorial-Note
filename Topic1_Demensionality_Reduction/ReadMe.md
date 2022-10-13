@@ -357,7 +357,7 @@ def LLE(data, neighbors_idx, n_components=2):
 ```
 
 앞서 ISOMAP과 동일하게 swiss roll 데이터를 LLE를 사용해 차원축소해보았다.
-```
+```python
 # demo with swiss roll dataset
 def main():
     # import swiss roll dataset
