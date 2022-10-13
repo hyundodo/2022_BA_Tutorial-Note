@@ -1,6 +1,6 @@
 # Topic1: Dimensionality Reduction
-비즈니스애널리틱스(IME654)의 첫번째 주제인 차원축소입니다.
-(김도현 2022020651)
+2022_Fall_Business Analytics(IME654)
+첫번째 주제인 차원축소 Tutorial입니다. (김도현 2022020651)
 
 Tutorial은 다음과 같은 환경에서 수행하였습니다.
 >scikit-learn == 1.0.2 \
