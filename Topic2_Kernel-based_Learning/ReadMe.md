@@ -84,6 +84,7 @@ SVR은 회귀식이 추정되면 회귀식 위아래로 입실론만큼 튜브�
 <img src="./figure/fig4.png" width="400">
 </center>
 SVM에서와 비슷하게 w, b를 구하는 과정에서 KKT 조건에 의해 튜브선에 걸친 객체와 튜브선 바깥쪽에 위치하는 객체들이 b를 결정하게 되고, 이들이 SVR의 support vector가 된다.
+
 <center>
 <img src="./figure/eq0.png" width="250">
 </center>
