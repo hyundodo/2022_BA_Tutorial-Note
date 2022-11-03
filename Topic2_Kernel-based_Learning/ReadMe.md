@@ -46,25 +46,16 @@ Support Vector Machine은 벡터 스페이스 상에 있는 데이터들을 가�
 SVM은 이진분류를 위한 선을 찾는 것이 목적이다. 앞서 설명한 것과 같이 데이터의 클래스를 가장 잘 나눌 수 있는 경계면을 찾는 것인데, 경계면을 찾는 과정에서 마진 내에 객체가 있어도 되는지 안되는지에 따라 hard margin SVM, soft margin SVM 2가지의 SVM이 있다.
 
 - hard margin을 갖는 SVM은 마진을 최대화하는 목적식과, 마진 내에 어떠한 객체도 포함되지 않도록 제약식을 가진다. 목적식으로부터 svm의 최적해를 얻는 과정에서 w와 b를 얻을 수 있게 된다. 특히 해당 과정에서 KKT 조건에 의해 마진 위에 있는 벡터들이 마진 결정에 영향을 미치게 되는데, 이것이 support vector이다.
-$$
-max L_D(\alpha_i)=\sum^N_{i=1} \alpha_i - {{1}\over{2}}\sum^N_{i=1}\sum^N_{j=1}\alpha_i\alpha_j y_i y_j x^T_i x_j
-$$
-$$
-s.t. \sum^n_{i=1} \alpha_i y_i = 0 \quad and \quad \alpha_i \geq 0
-$$
-$$
-by \;KKT \,condition \quad  \alpha_i(y_i(w^Tx_i+b)-1) = 0 
-$$
+
+<center>
+<img src="./figure/eq1.png" width="350">
+</center> 
+
 - soft margin을 갖는 SVM은 마진을 최대화하는 목적식이지만 조건을 만족시키지 못한 경우(마진을 벗어난 객체) 패널티 항이 추가된 목적식을 가진다. 또한 패널티항에 hyper-parameter C가 있는데, 이는 패널티를 얼마나 과중하게 볼 것인가 사용자가 판단해 설정한다. 해당 목적식을 푸는 과정도 hard margin일 때와 동일하며, 결과적으로 C에 따라 마진의 크기가 변화한다. C가 커질수록 마진은 작아지고, C가 작아질수록 마진은 커진다. 또한, 마진을 벗어난 벡터들과 마진 위에 있는 벡터들이 경계면을 결정하게 되고, 이것이 support vector가 된다.
-$$
-max L_D(\alpha_i)=\sum^N_{i=1} \alpha_i - {{1}\over{2}}\sum^N_{i=1}\sum^N_{j=1}\alpha_i\alpha_j y_i y_j x^T_i x_j
-$$
-$$
-s.t. \sum^n_{i=1} \alpha_i y_i = 0 \quad and \quad 0 \leq \alpha_i \leq C
-$$
-$$
-by \;KKT \,condition \quad \alpha_i(y_i(w^Tx_i+b)-1+\xi_i) = 0, \quad C-\alpha_i-\mu_i=0 \quad or \quad \mu_i\xi_i=0
-$$
+
+<center>
+<img src="./figure/eq2.png" width="600">
+</center> 
 
 ### 1-2. SVM w/ Kernel
 
@@ -76,12 +67,10 @@ $$
 </center>
 
 결과적으로 비선형적인 분류를 위해 데이터를 더 고차원에 맵핑하여 고차원 공간에서 데이터를 분류할 수 있는 초평면을 찾는 것이 Kernel SVM 이라고 할 수 있다.
-$$
-max L_D(\alpha_i)=\sum^N_{i=1} \alpha_i - {{1}\over{2}}\sum^N_{i=1}\sum^N_{j=1}\alpha_i\alpha_j y_i y_j K(x_i, x_j)
-$$
-$$
-s.t. \sum^n_{i=1} \alpha_i y_i = 0 \quad and \quad 0 \leq \alpha_i \leq C
-$$
+<center>
+<img src="./figure/eq3.png" width="400">
+</center> 
+
 
 
 ---
@@ -94,24 +83,21 @@ SVR은 회귀식이 추정되면 회귀식 위아래로 입실론만큼 튜브�
 <center>
 <img src="./figure/fig4.png" width="400">
 </center>
-
 SVM에서와 비슷하게 w, b를 구하는 과정에서 KKT 조건에 의해 튜브선에 걸친 객체와 튜브선 바깥쪽에 위치하는 객체들이 b를 결정하게 되고, 이들이 SVR의 support vector가 된다.
-$$
-f(x) = \sum^n_{i=1}(\alpha^*_i - \alpha_i)x^T x + b
-$$
-$$
-b = f(x_{sv})-\sum^n_{i=1}(\alpha^*_i - \alpha_i)x^T_i s_{sv}
-$$
+<center>
+<img src="./figure/eq0.png" width="250">
+</center>
 
 
 ### 2-2. SVR w/ Kernel
 SVM에서와 마찬가지로 선형으로 적절한 회귀식을 찾을 수 없는 경우가 굉장히 많다. 동일하게 맵핑함수를 통해 저차원 데이터들을 더 높은 차원으로 변환시켜, 이들을 잘 회귀할 수 있는 선형 회귀선을 찾아볼 수 있다. original SVR의 목적식을 전개하는 과정에서 라그랑지안 듀얼 문제로 재구성하고 객체들의 내적에 대해 kernel trick을 사용해 고차원 공간으로 변형시켜준다. 결과적으로 고차원공간에 맵핑하여 비선형적인 회귀식을 도출할 수 있게 된다.
-$$
-f(x) = \sum^n_{i=1}(\alpha_i^* - \alpha_i)K(x_i, x_j)+b
-$$
+<center>
+<img src="./figure/eq4.png" width="250">
+</center>
+
 비선형성을 가지는 회귀식을 만들기 위해 데이터를 더 고차원에 맵핑하여 고차원 공간에서 데이터를 분류할 수 있는 회귀선을 찾는 것이 Kernel SVR이다.  
 
-  
+---
 
 ## 3. KFDA & KPCA (Kerner Fisher Discriminant Analysis & Kernel PCA)
 ### 3-1. KFDA
@@ -124,25 +110,16 @@ Linear Discriminant Analysis는 사영 후에 두 클래스를 가장 잘 분리
 </center>  
 
 이를 위해서 클래스 간 얼마나 멀리 떨어져 있는지에 대한 between class variance 지표와 클래스 내 객체들이 서로 얼마나 가까이 밀집해 있는지 within class variance 지표를 통해 아래 첫번재 수식과 같이 표현할 수 있고, 이것을 maximized 하는 게 목적이다. S_b와 S_w는 각각 between class, within class의 공분산 행렬이다. 결과적으로 클래스 사이의 방향 벡터와 within class의 공분산 행렬의 역행렬을 구하면 원하는 기저를 구할 수 있게 된다.
-$$
-J(w) = {{w^T S_b w}\over{w^T S_w w}}
-$$
-$$
-w \propto S_w^{-1}(m_2-m_1)
-$$
+<center>
+<img src="./figure/eq5.png" width="200">
+</center>
   
 
 ### KFDA
 앞서 살펴본 LDA에 Kernel을 사용하여 더 고차원에서 클래스를 잘 분류할 수 있는 기저를 찾아볼 수 있다. 입력데이터 x를 고차원에 맵핑해서 S_w와 S_b를 구한 뒤, 원래 LDA의 목적식을 풀면 된다.
-$$
-J(w) = {{w^T S_b^\Phi w}\over{w^T S_w^\Phi w}}
-$$
-$$
-w = \sum^N_{n=1} \alpha_n \Phi(x_n), \quad \alpha_n \in R
-$$
-$$
-y(x) = \sum^N_{n=1} \alpha_n K(x_n, x)
-$$
+<center>
+<img src="./figure/eq6.png" width="250">
+</center>
 
 ### 3-2. KPCA
 PCA에도 Kernel을 적용해볼 수 있는데, PCA를 간략히 살펴보고 KPCA를 정리한다.
@@ -168,35 +145,38 @@ KPCA도 마찬가지로 고차원 공간으로 입력데이터를 맵핑해 분�
 </center>  
 
 PCA가 데이터의 공분산으로부터 구한 eigenvector에 데이터를 사영시켰다면, KPCA는 kernel 함수를 거쳐 새로운 공간에서의 공분산으로 기저를 구하게 된다.
-$$
-K \alpha_k = \lambda N \alpha_k
-$$
-$$
-y_k(x) = \Phi(x)^T v_k = \sum^N_{i=1} \alpha_{ki}K(x, x_i)
-$$
+<center>
+<img src="./figure/eq7.png" width="300">
+</center>
 
 KPCA의 과정은 다음과 같다.
 1. kernel 함수를 결정
 2. kernel 함수를 적용하고 공분산 행렬 구하기
 3. eigenvalue가 높은 eigenvector를 선택
 4. 선택된 eigenvector에 데이터 사영  
-
-
+---
 # 2. Tutorial Note
 ## SVM Tutorial
+Tutorial은 kaggle에 있는 'Credit Card Fraud Detection' 데이터를 사용하였습니다. 이번 Tutorial의 목적은 다음과 같습니다.
+- navie SVM w/ soft-margin 구현
+- linear SVM과 Kernel(rbf) SVM 성능 비교
+- k-NN, LDA와 성능 비교  
 
 ### go to Tutorial
 - [Tutorial Jupyer Note](/svm_tutorial.ipynb)
 
-### SVM
-SVM의 원 문제를 Lagrangian multiplier를 이용하여 Lagrangian primal로 변환하면 이 때의 dual은 다음과 같습니다.  
+### SVM solver
+전체 코드 부분은 jupyer notebook을 참고할 수 있으며, SVM의 구현 부분에 대해서만 간략하게 짚고 넘어가겠습니다. SVM의 구현을 위해 원 문제의 수식을 이해할 필요가 있습니다.  
+원 문제를 Lagrangian multiplier를 이용하여 Lagrangian primal로 변환하면 이 때의 dual은 다음과 같습니다.  
 
-$$max \; \sum_{i=1}^N \alpha_i − {{1}\over{2}}\sum_{i=1}^N \sum_{j=1}^N y_iy_j \alpha_i \alpha_j x_ix_j$$
-$$ s.t. \; \sum_{i=1}^n \alpha_i y_i = 0 \; and \; 0 \leq \alpha_i \leq C$$
+<center>
+<img src="./figure/eq8.png" width="250">
+</center>
 
 CVXOPT의 solver는 (P, q[, G, h[, A, b[, solver[, initvals]]]])와 같은 형태로 parameter들을 받아 아래와 같은 수식을 만족시키는 모수를 찾습니다. 여기서의 P, q, G, h, A, b를 적절하게 설정하여 cvxopt가 lagrangian dual을 풀 수 있도록 하는 것이 필요합니다.
-$$min \; {{1}\over{2}}xT P x + qT x$$
-$$s.t. \; Gx≤h, \; Ax = b$$
+<center>
+<img src="./figure/eq9.png" width="150">
+</center>
 
 ```python
 # SVM sol function
@@ -240,3 +220,10 @@ def svm_solver(X, y, C, param=0, type='linear', output_print=False):
 ### Results
 
 <img src="./figure/table1.png" width="300">
+
+SVM의 수식을 참고해 코드로 구현하였습니다. 또한, 분류 task에 많이 사용되는 몇몇의 알고리즘과 SVM과 비교를 수행했습니다.    
+- 가장 좋은 성능을 보이고 있는 모델은 LDA로 Kernel을 사용하지 않았음에도 더 좋은 성능을 보였습니다.
+- SVM은 RBF Kernel을 사용한 모델이 사용하지 않은 모델보다 성능이 0.03 더 좋은 결과를 보입니다.
+    - 추가적으로 gamma와 C를 바꿔가며 실험해보았지만, 실제로 큰 성능 변화는 없었습니다.
+    - 데이터의 특성상 고차원 맵핑이 필요하지 않을 수도 있습니다. 
+- 다만, original data는 신용카드 부정사용 탐지 데이터로 class 불균형이 있어, 분석자가 임의로 클래스 개수를 맞춰주었기 때문에 불균형의 문제는 여전히 남아있을 것으로 판단됩니다.
