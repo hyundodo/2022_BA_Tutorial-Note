@@ -163,7 +163,7 @@ Tutorial은 kaggle에 있는 'Credit Card Fraud Detection' 데이터를 사용�
 - k-NN, LDA와 성능 비교  
 
 ### go to Tutorial
-- [Tutorial Jupyer Note](/svm_tutorial.ipynb)
+- [Tutorial Note](./svm_tutorial.ipynb)
 
 ### SVM solver
 전체 코드 부분은 jupyer notebook을 참고할 수 있으며, SVM의 구현 부분에 대해서만 간략하게 짚고 넘어가겠습니다. SVM의 구현을 위해 원 문제의 수식을 이해할 필요가 있습니다.  
