@@ -174,7 +174,7 @@ PCA를 이용한 이상치 탐지 방법이다. PCA는 앞선 topic1에서 살�
 ## 4. Model-based Anomaly Detection
 앞서 밀도, 거리 기반 이상치 탐지 방법론들을 살펴보았다면, 지금부터는 모델 기반의 이상치 탐지 방법론들에 대해 살펴본다.  
 
-### 3-1. Auto-Encoder
+### 4-1. Auto-Encoder
 AutoEncoder는 입력변수의 수보다 은닉 노드의 수가 더 적은 은닉층을 가지면서 입출력이 동일한 신경망이다. 이때 Autoencoder에 데이터를 학습시키면 encoder는 데이터의 특정 패턴을 학습해 잘 압축하려고 할 것이고, decoder는 압축된 벡터의 정보를 이용해 원 데이터와 최대한 비슷하게 출력해내도록 학습한다.
 
 <p align="center"><img src="./figure/fig8.png" height=200></p>
@@ -185,7 +185,7 @@ AutoEncoder는 입력변수의 수보다 은닉 노드의 수가 더 적은 은�
 
 추가로 autoencoder에 encoding 과정에서 노이즈를 준 뒤에 원본과 같이 복구하도록 하는 denoising AutoEncoder, Convolution 연산을 활용해 이미지 데이터의 이상치를 탐지하는 Convolutional AutoEncoder 등을 활용한 이상치 탐지 방법들도 있다.  
 
-### 3-2. Support Vector-based Anomaly Detection
+### 4-2. Support Vector-based Anomaly Detection
 Support Vector 기반의 이상치 탐지 방법으로는 1-SVM과 SVDD를 살펴본다. 1-SVM은 데이터를 피처공간에 매핑하고 원점과의 거리를 최대화할 수 있는 초평면을 찾는 것이 목적이다. 목적식은 SVM과 비슷한 걸 확인할 수 있다. 다만, 1-SVM은 $-\rho$ 를 통해 초평면이 원점으로부터 양의 방향으로 최대한 멀어지라는 제약과, ${{1}\over{\nu l}}\sum\xi_i$ 를 통해 초평면 아래에 존재하는 객체들에 대해 패널티를 가하도록 제약하는 부분이 추가된다. 
 
 $$
@@ -222,7 +222,7 @@ SVDD의 Support Vector는 초구 밖에 위치한 객체와 초구 위에 위치
 <p align="center"><img src="./figure/fig12.png" height=200></p>
 
 
-### 3-3. Isolation Forersts
+### 4-3. Isolation Forersts
 I-Forest는 소수 범주의 데이터(이상치)는 정상 범주 데이터와는 특정 속성 값이 많이 다를 가능성이 높다는 가정으로부터 시작한다. 속성 값이 다른 하나의 객체를 고립시키도록 tree를 생성하는 방법론이다. 가정이 맞다면, 아래 그림의 왼쪽과 같은 정상 데이터를 고립시키는데는 많은 분기(split)가 필요할 것이고 오른쪽 그림과 같은 이상치 데이터라면 상대적으로 적은 분기만으로 고립이 가능할 것이다.
 
 <p align="center"><img src="./figure/fig10.png" height=200></p>
@@ -438,6 +438,7 @@ class Conv_Autoencoder(nn.Module):
 
 > 노이즈를 가해 학습시킨 Conv AutoEncoder의 경우에도 다른 클래스의 이미지를 입력했을 때 해당 클래스에 비슷하게 잘 복원하고 있기 때문에, 시각적으로만 확인하면 이상치를 탐지하기는 어려울 것으로 예상됩니다.
 
+---
 
 - 최종 평가  
 > AutoEncoder를 구현하고 이미지 데이터의 하나의 클래스만을 학습시킨 뒤, 같은 클래스(숫자 5)에 대한 복원 능력과 다른 클래스(숫자 8)일 경우의 복원 능력을 서로 비교해 이상치 탐지를 하고자 했습니다. 시각적으로 보았을 경우에는, naive AutoEncoder들의 경우 다른 클래스일 경우 8을 입력했음에도 5와 가까이 복원하고 있어 시각적인 이상치 탐지는 가능할 것으로 사료됩니다. Conv AutoEncoder들의 경우에는 다른 클래스의 이미지를 넣어도 해당 클래스와 비슷하게 복원하는 것으로 나타나 시각적인 이상치 탐지는 어려울 것입니다.  
