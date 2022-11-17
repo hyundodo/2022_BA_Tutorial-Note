@@ -133,12 +133,12 @@ $$
 
 하지만 hypercube 내에 객체가 위치하면 1 영역 밖이면 0이고, 안에 존재하더라도 객체들에 대해 가중치가 동등하기 때문에 불연속적인 추정이다. 따라서 다른 방식의 커널함수를 사용해 밀도를 추정한다.
 
-<p align="center"><img src="./figure/fig3.png" height=200></p>
+<p align="center"><img src="./figure/fig3.png" height=100></p>
 
 ### 1-4. Local Outlier Factor
 Local Outlier Factor는 이상치 스코어를 산출할 때, 주변주 데이터의 밀도를 고려하는 기법이다. 예를들어, 아래의 그림과 같은 데이터에서 노란색으로 표시한 두 점을 선택했다고 가정해보겠다. 이때 왼쪽 아래 위치한 점의 부근에 위치한 데이터들은 밀도가 높고, 오른쪽 위에 위치한 점은 부근에 있는 데이터들의 밀도가 sparse하다. 이때 주변부의 밀도를 고려해 이상치 점수를 매기는 것이 해당 알고리즘의 특징이다. 선택된 두 점이 주변의 데이터와 절대적인 거리는 비슷하지만, 주변부의 데이터 밀도에 따라 이상치 정도를 다르게 부여하는 것이다.
 
-<p align="center"><img src="./figure/fig5.png" height=200></p>
+<p align="center"><img src="./figure/fig5.png" height=300></p>
   
 알고리즘 프로세스는 다음과 같다. 먼저 객체 p의 주변 객체 k과의 거리 k-distance를 구한다. 이후 k-disteance 범위 안에 있는 데이터 중 두 객체 사이의 거리와 k-distance를 비교해 사용가능한 더 큰 값 reachability distance을 구한다. 이때 객체p의 local reachability distance를 다음과 같이 정의할 수 있다.
 
@@ -169,7 +169,7 @@ k-means 이상치 탐지는 객체와 가장 가까운 군집의 중심과의 �
 ### 3-3. Principal Component Analysis-based Anomaly Detection
 PCA를 이용한 이상치 탐지 방법이다. PCA는 앞선 topic1에서 살펴보았듯이, 주어진 데이터들의 분산을 최대로 보존할 수 있는 주성분을 찾는 기법이다. 이때 분산을 최대한 보존할 수 있도록 하는 기저에 사영해 데이터의 차원을 축소하게 되는데, 축소된 차원 공간과 원데이터 공간 사이의 에러를 이상치 점수로 두는 방법이다. 즉, PCA를 사용해 데이터를 차원축소하고, 이를 다시 복원했을 때 원데이터와 비교해 복원 정도를 가지고 이상치를 탐지하는 기법이다.
 
-<p align="center"><img src="./figure/fig7.png" height=200></p>
+<p align="center"><img src="./figure/fig7.png" height=150></p>
 
 ## 4. Model-based Anomaly Detection
 앞서 밀도, 거리 기반 이상치 탐지 방법론들을 살펴보았다면, 지금부터는 모델 기반의 이상치 탐지 방법론들에 대해 살펴본다.  
@@ -362,16 +362,16 @@ class Conv_Autoencoder(nn.Module):
 학습 중의 loss에 대해 추적해본 결과 아래와 같은 모습을 보이며 학습되었습니다.
 
 - AutoEncoder
-<p align="center"><img src="./result_figure/savefig_AE.png" height=300></p>
+<p align="center"><img src="./result_figure/savefig_AE.png" height=250></p>
 
 - AutoEncoder w/ noise
-<p align="center"><img src="./result_figure/savefig_DAE.png" height=300></p>
+<p align="center"><img src="./result_figure/savefig_DAE.png" height=250></p>
 
 - Conv AutoEncoder
-<p align="center"><img src="./result_figure/savefig_CAE.png" height=300></p>
+<p align="center"><img src="./result_figure/savefig_CAE.png" height=250></p>
 
 - Conv AutoEncoder w/ noise
-<p align="center"><img src="./result_figure/savefig_CDAE.png" height=300></p>
+<p align="center"><img src="./result_figure/savefig_CDAE.png" height=250></p>
 
 > 학습 과정을 보면 Convolution을 사용해서 학습한 것이 더 안정적으로 학습되고 있는 것을 확인할 수 있었습니다. 이미지 데이터이기 때문에 이미지를 행렬로 변환하여 연산한 것보다, conv 연산을 활용하여 학습한 것이 더 안정적입니다.
 
