@@ -247,11 +247,194 @@ I-Forest의 장점은 이상치 스코어가 항상 0~1 사이의 값으로 계�
 Tutorial은 모델 기반의 이상치 탐지 가운데, AutoEncoder를 활용한 방법론들에 대해 구현해보고 비교해봅니다. 데이터는 CIFAR-10 데이터셋을 활용하여 하나의 클래스에 대해 autoencoder를 학습시킨 뒤, 다른 클래스의 사진을 입력했을 때의 결과를 살펴보았습니다.
 
 이번 Tutorial의 목적은 다음과 같습니다.
-- naive AutoEncoder, Denoising AutoEncoder, Stacking AutoEncoder, Stacking Denoisign AutoEncoder 구현
-- CIFAR-10 데이터셋의 하나의 클래스 이미지를 학습한 뒤, 다른 클래스 이미지를 입력했을 때의 결과 비교
-- hidden node의 시각화
+- naive AutoEncoder, Denoising AutoEncoder, Convolutional AutoEncoder, Convolutional Denoising AutoEncoder 구현 및 학습
+- 각 모델별 MNIST 데이터셋의 하나의 클래스 이미지를 학습한 뒤, 다른 클래스 이미지를 입력했을 때의 결과 비교
+
+Tutorial은 AutoEncoder들의 사전학습 단계와 평가 단계로 구성됩니다. 4종류의 AutoEncoder를 구현하고 MINST Dataset의 '숫자 5'에 대한 이미지만 사용해 모델을 학습시켰습니다. 이후 학습된 AutoEncoder들을 통해 모델별로 같은 클래스의 이미지와 다른 클래스의 이미지가 입력되었을 때 복원 능력을 평가해보았습니다.
 
 
 ### go to Tutorial
-- [Tutorial Note]()
+- [Tutorial Note](./Inference_result.ipynb)
 
+### 모델 구현
+먼저 AutoEncoder와 Conv AutoEncoder는 다음과 같이 layer를 쌓아 구현했으며, Denoising은 데이터가 입력될 때 가우시안 노이즈를 부여하는 것으로 차이를 두었습니다. 이후 학습에 사용한 하이퍼파라미터는 batch_size=256, optimizer=Adam, lr=1e-4로 설정해 300 epoch 수행했습니다.
+
+- AutoEncoder
+```python
+class Autoencoder(nn.Module):
+    def __init__(self):
+        super(Autoencoder, self).__init__()
+        
+        self.encoder = nn.Sequential(
+            nn.Linear(28*28, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(),
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Linear(64, 32),
+            nn.BatchNorm1d(32),
+            nn.ReLU(),
+            nn.Linear(32, 16),
+            nn.ReLU()
+        )
+        
+        self.decoder = nn.Sequential(
+            nn.Linear(16, 32),
+            nn.BatchNorm1d(32),
+            nn.ReLU(),
+            nn.Linear(32, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Linear(64, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Linear(128, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+            nn.Linear(256, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(),
+            nn.Linear(512, 28*28),
+            nn.Sigmoid()
+        )
+        
+    def forward(self, x):
+        encoding = self.encoder(x)
+        decoding = self.decoder(encoding)
+        return encoding, decoding
+```
+
+- Conv AutoEncoder
+```python
+class Conv_Autoencoder(nn.Module):
+    def __init__(self):
+        super(Conv_Autoencoder, self).__init__()
+        
+        self.encoder = nn.Sequential(
+            nn.Conv2d(1, 8, 3, stride=2, padding=1),
+            #nn.BatchNorm2d(8),
+            nn.ReLU(),
+            nn.Conv2d(8, 16, 3, stride=2, padding=1),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.Conv2d(16, 32, 3, stride=2, padding=0),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Flatten(start_dim=1),
+                     
+            nn.Linear(3*3*32, 128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Linear(64, 16),
+        )
+        
+        self.decoder = nn.Sequential(
+            nn.Linear(16, 64),
+            nn.ReLU(),
+            nn.Linear(64, 3*3*32),
+            nn.ReLU(),
+            
+            nn.Unflatten(dim=1, unflattened_size=(32, 3, 3)),
+            nn.ConvTranspose2d(32, 16, 3, stride=2, output_padding=0),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.ConvTranspose2d(16, 8, 3, stride=2, padding=1, output_padding=1),
+            nn.BatchNorm2d(8),
+            nn.ReLU(),
+            nn.ConvTranspose2d(8, 1, 3, stride=2, padding=1, output_padding=1),
+            nn.Sigmoid()
+        )
+        
+    def forward(self, x):
+        encoding = self.encoder(x)
+        decoding = self.decoder(encoding)
+        return encoding, decoding
+```
+
+학습 중의 loss에 대해 추적해본 결과 아래와 같은 모습을 보이며 학습되었습니다.
+
+- AutoEncoder
+<p align="center"><img src="./result_figure/savefig_AE.png" height=300></p>
+
+- AutoEncoder w/ noise
+<p align="center"><img src="./result_figure/savefig_DAE.png" height=300></p>
+
+- Conv AutoEncoder
+<p align="center"><img src="./result_figure/savefig_CAE.png" height=300></p>
+
+- Conv AutoEncoder w/ noise
+<p align="center"><img src="./result_figure/savefig_CDAE.png" height=300></p>
+
+> 학습 과정을 보면 Convolution을 사용해서 학습한 것이 더 안정적으로 학습되고 있는 것을 확인할 수 있었습니다. 이미지 데이터이기 때문에 이미지를 행렬로 변환하여 연산한 것보다, conv 연산을 활용하여 학습한 것이 더 안정적입니다.
+
+아래는 학습된 AutoEncoder들을 활용해 추론해본 뒤 시각적인 비교 결과입니다.
+- 원본 테스트 이미지(같은 클래스)
+<p align="center"><img src="./result_figure/result_1.png" height=200></p>
+
+- 원본 테스트 이미지(다른 클래스)
+<p align="center"><img src="./result_figure/result_2.png" height=200></p>
+
+---
+
+- AutoEncoder의 복원 결과(같은 클래스: 5)
+<p align="center"><img src="./result_figure/result_3.png" height=200></p>
+
+- AutoEncoder의 복원 결과(다른 클래스: 8)
+<p align="center"><img src="./result_figure/result_4.png" height=200></p>
+
+- 복원 결과 정량적 평가
+<p align="center"><img src="./result_figure/result_11.png" height=200></p>
+
+> 다른 클래스의 이미지인 숫자 8이 입력되었음에도 숫자 5와 같이 복원되고 있음을 확인할 수 있습니다. 이러한 특성을 이용해 이상치 탐지에 이용할 수 있습니다. 하지만, 이를 정량적으로 평가해보았을 경우에는 확연한 차이가 드러나지 않았습니다.
+
+---
+
+- Denoising AutoEncoder의 복원 결과(같은 클래스: 5)
+<p align="center"><img src="./result_figure/result_5.png" height=200></p>
+
+- Denoising AutoEncoder의 복원 결과(다른 클래스: 8)
+<p align="center"><img src="./result_figure/result_6.png" height=200></p>
+
+- 복원 결과 정량적 평가
+<p align="center"><img src="./result_figure/result_12.png" height=200></p>
+
+> 노이즈를 가하지 않았을 경우보다 조금 더 뚜렷하게 복원하고 있는 것을 확인할 수 있습니다. 특히 다른 클래스의 이미지를 입력한 경우에 학습한 클래스의 이미지에 더 비슷하게 복원해내고 있습니다. 하지만, 이 역시 정량적으로 확인해본 결과 샘플마다의 편차가 굉장히 커서 클래스 간 복원 성능 즉, 이상치를 탐지하기에 임계값을 정하기 어려워보입니다.
+
+---
+
+- Convolutional AutoEncoder의 복원 결과(같은 클래스: 5)
+<p align="center"><img src="./result_figure/result_7.png" height=200></p>
+
+- Convolutional AutoEncoder의 복원 결과(다른 클래스: 8)
+<p align="center"><img src="./result_figure/result_8.png" height=200></p>
+
+- 복원 결과 정량적 평가
+<p align="center"><img src="./result_figure/result_13.png" height=200></p>
+
+> Conv AutoEncoder의 경우 다른 클래스의 이미지를 입력했을 때 해당 클래스에 비슷하게 잘 복원하고 있는 것이 특징입니다. Conv의 경우 오히려 시각적으로만 확인하면 이상치를 탐지하기는 힘들어보입니다. 정량적으로 확인해보았을 때에도, 마찬가지로 샘플마다의 편차가 커서 임계값을 정하기 어려워 보입니다.
+
+---
+
+- Convolutional Denoising AutoEncoder의 복원 결과(같은 클래스: 5)
+<p align="center"><img src="./result_figure/result_9.png" height=200></p>
+
+- Convolutional Denoising AutoEncoder의 복원 결과(다른 클래스: 8)
+<p align="center"><img src="./result_figure/result_10.png" height=200></p>
+
+- 복원 결과 정량적 평가
+<p align="center"><img src="./result_figure/result_14.png" height=200></p>
+
+> 노이즈를 가해 학습시킨 Conv AutoEncoder의 경우에도 다른 클래스의 이미지를 입력했을 때 해당 클래스에 비슷하게 잘 복원하고 있기 때문에, 시각적으로만 확인하면 이상치를 탐지하기는 어려울 것으로 예상됩니다.
+
+
+- 최종 평가
+AutoEncoder를 구현하고 이미지 데이터의 하나의 클래스만을 학습시킨 뒤, 같은 클래스(숫자 5)에 대한 복원 능력과 다른 클래스(숫자 8)일 경우의 복원 능력을 서로 비교해 이상치 탐지를 하고자 했습니다. 시각적으로 보았을 경우에는, naive AutoEncoder들의 경우 다른 클래스일 경우 8을 입력했음에도 5와 가까이 복원하고 있어 시각적인 이상치 탐지는 가능할 것으로 사료됩니다. Conv AutoEncoder들의 경우에는 다른 클래스의 이미지를 넣어도 해당 클래스와 비슷하게 복원하는 것으로 나타나 시각적인 이상치 탐지는 어려울 것입니다.  
+하지만, 모든 모델의 정량적인 차이를 확인해보았을 경우에는 샘플마다 편차가 커서 특정 임계값을 정해 이상치 탐지는 힘들어보입니다. 해당 MNIST 데이터셋은 채널이 1인 흑백 이미지인 것과 학습데이터셋이 5000장 밖에 안되는 것이 한계점으로 작용했다고 생각됩니다. 따라서, 더 극단적인 결과를 확인하기 위해서는 모델을 더 깊게 쌓아 더 많이 학습을 수행하면 해당 문제를 조금이나마 완화할 수 있을 것이라 기대합니다.
