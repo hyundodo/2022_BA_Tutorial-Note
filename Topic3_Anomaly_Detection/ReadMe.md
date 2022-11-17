@@ -252,6 +252,10 @@ Tutorial은 모델 기반의 이상치 탐지 가운데, AutoEncoder를 활용�
 
 Tutorial은 AutoEncoder들의 사전학습 단계와 평가 단계로 구성됩니다. 4종류의 AutoEncoder를 구현하고 MINST Dataset의 '숫자 5'에 대한 이미지만 사용해 모델을 학습시켰습니다. 이후 학습된 AutoEncoder들을 통해 모델별로 같은 클래스의 이미지와 다른 클래스의 이미지가 입력되었을 때 복원 능력을 평가해보았습니다.
 
+모델의 학습은 다음의 명령어로 수행할 수 있습니다.
+```bash
+python train.py -net AE
+```
 
 ### go to Tutorial
 - [Tutorial Note](./Inference_result.ipynb)
