@@ -257,7 +257,7 @@ Tutorial은 AutoEncoder들의 사전학습 단계와 평가 단계로 구성됩�
 python train.py -net AE
 ```
 
-### go to Tutorial
+## Go to Tutorial
 - [Tutorial Note](./Inference_result.ipynb)
 
 ### 모델 구현
