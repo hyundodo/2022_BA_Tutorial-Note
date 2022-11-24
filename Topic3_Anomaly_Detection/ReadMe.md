@@ -10,18 +10,18 @@
 1. Anomaly Detection
     1. Overview
     2. Density-based Anomaly Detection
-        - [Gaussian Density-based Anomaly Detection](#1-1-gaussian-density-based-anomaly-detection)
-        - [Mixture of Gaussians](#1-2-mixture-of-gaussians)
-        - [Parzen Window Density Estimation](#1-3-parzen-window-density-estimation)
-        - [Local Outlier Factor](#1-4-local-outlier-factor)
+        - [Gaussian Density-based Anomaly Detection](#1-2-1-gaussian-density-based-anomaly-detection)
+        - [Mixture of Gaussians](#1-2-2-mixture-of-gaussians)
+        - [Parzen Window Density Estimation](#1-2-3-parzen-window-density-estimation)
+        - [Local Outlier Factor](#1-2-4-local-outlier-factor)
     3. Distance-based Anomaly Detection
-        - [k-Nearest Neighbor-based Anomaly Detection](#2-1-k-nearest-neighbor-based-anomaly-detection)
-        - [Clustering-based Approach](#2-2-clustering-based-approach)
-        - [Principal Component Analysis-based Anomaly Detection](#2-3-principal-component-analysis-based-anomaly-detection)
+        - [k-Nearest Neighbor-based Anomaly Detection](#1-3-1-k-nearest-neighbor-based-anomaly-detection)
+        - [Clustering-based Approach](#1-3-2-clustering-based-approach)
+        - [Principal Component Analysis-based Anomaly Detection](#1-3-3-principal-component-analysis-based-anomaly-detection)
     4. Model-based Anomaly Detection
-        - [Auto-Encoder](#3-1-auto-encoder)
-        - [Support Vector-based Anomaly Detection](#3-2-support-vector-based-anomaly-detection)
-        - [Isolation Forersts](#3-3-isolation-forersts)
+        - [Auto-Encoder](#1-4-1-auto-encoder)
+        - [Support Vector-based Anomaly Detection](#1-4-2-support-vector-based-anomaly-detection)
+        - [Isolation Forersts](#1-4-3-isolation-forersts)
 2. Tutorial Note
     - [Anomaly Detection Tutorial](#anomaly-detection-tutorial)
 
@@ -36,7 +36,7 @@
 밀도 기반의 이상치 탐지 방법은 정상 범주의 데이터들을 생성하는 특정 함수가 정해져 있고, 분포를 결정해주는 핵심 요소가 있을 것이라 가정한 접근 방법이다. 주어진 제이터를 바탕으로 각 객체들이 생성될 확률을 추정해 추정된 분포로부터 가장 낮은 확률을 가지는 데이터를 이상치로 탐지한다.  
 아래 살펴볼 4개의 방법론 중, Gaussian Density-based Anomaly Detection과 Mixture of Gaussians는 데이터가 특정 분포를 따른다고 가정하고 접근하는 방법론이다. 반면, Parzen Window Density Estimation과 Local Outlier Factor의 경우에는 데이터가 특정 분포를 따른다고 가정하지 않고 접근한다.
 
-### 1-1. Gaussian Density-based Anomaly Detection
+### 1-2-1. Gaussian Density-based Anomaly Detection
 가우시안 기반의 이상치 탐지 방법론은 모든 데이터가 하나의 가우시안 분포로부터 생성되는 것을 가정하여 접근하는 방법론이다. 관찰된 데이터를 통해 가우시안 분포의 파라미터(평균, 분산)와 공분산 행렬을 추정하고, 이후 새로운 데이터에 대해서는 앞서 추정한 가우시안 분포에 따른 생성 확률을 구해 이상치를 판단한다. 분포로부터 확률이 낮을수록 이상치에 가까운 것으로 판단하게 된다.  
 
 $$
@@ -55,7 +55,7 @@ $$
 
 <p align="center"><img src="./figure/fig1.png" height=200></p>
   
-### 1-2. Mixture of Gaussians (MoG)
+### 1-2-2. Mixture of Gaussians (MoG)
 관찰된 데이터들에 대해 하나의 가우시안을 따른다고 가정하면, 복잡한 데이터의 분포는 잘 표현하지 못한다는 단점이 존재한다. MoG는 하나의 가우시안이 아닌 여러 개의 가우시안이 혼합된 분포를 따른다고 가정하는 방법론이다. 가우시안 분포들의 선형 결합으로 전체 데이터의 분포를 표현한다. 예를 들어 데이터들이 아래의 가우시안 분포들(보라, 초록, 하늘색)을 따른다고 가정했을 때 f(x)는 이 3개의 분포들의 선형결합으로써 표현할 수 있다.
 
 <p align="center"><img src="./figure/fig2.png" height=200></p>
@@ -92,7 +92,7 @@ $$
 { \sigma  }_{ m }^{ 2(new) }=\frac { \sum _{ i=1 }^{ N }{ p(m|{ x }_{ i },\lambda ){ x }_{ i }^{ 2 } }  }{ \sum _{ i=1 }^{ N }{ p(m|{ x }_{ i },\lambda ) }  } -{ \mu  }_{ m }^{ 2(new) }
 $$
 
-### 1-3. Parzen Window Density Estimation
+### 1-2-3. Parzen Window Density Estimation
 앞서 살펴본 방법론과는 달리, Parzen Window 방법론은 데이터가 특정한 분포를 가진다는 가정 없이 주어진 데이터로부터 주변부의 밀도를 추정하는 방식이다. 이에 앞서 먼저 Kernal-density Estimation에 대해 살펴볼 필요가 있다. Kernel density Estimation은 원점을 중심으로 대칭이면서 넓이가 1인 함수로 정의되는 커널함수를 사용해 데이터의 밀도를 추정한다.  
 먼저 임의의 확률 밀도 함수에서 x가 표본 공간에서 R 영역에 있을 확률은 아래 첫번째 수식과 같고, 주어진 데이터들 가운데 k개가 범위 안에 속할 확률은 두번째 수식과 같이 구할 수 있다.
 
@@ -135,7 +135,7 @@ $$
 
 <p align="center"><img src="./figure/fig3.png" height=100></p>
 
-### 1-4. Local Outlier Factor
+### 1-2-4. Local Outlier Factor
 Local Outlier Factor는 이상치 스코어를 산출할 때, 주변주 데이터의 밀도를 고려하는 기법이다. 예를들어, 아래의 그림과 같은 데이터에서 노란색으로 표시한 두 점을 선택했다고 가정해보겠다. 이때 왼쪽 아래 위치한 점의 부근에 위치한 데이터들은 밀도가 높고, 오른쪽 위에 위치한 점은 부근에 있는 데이터들의 밀도가 sparse하다. 이때 주변부의 밀도를 고려해 이상치 점수를 매기는 것이 해당 알고리즘의 특징이다. 선택된 두 점이 주변의 데이터와 절대적인 거리는 비슷하지만, 주변부의 데이터 밀도에 따라 이상치 정도를 다르게 부여하는 것이다.
 
 <p align="center"><img src="./figure/fig5.png" height=300></p>
@@ -153,28 +153,28 @@ $$
 $$
 
 
-## 3. Distance-based Anomaly Detection
+## 1-3. Distance-based Anomaly Detection
 이번 챕터에서는 거리기반으로 이상치를 탐지하는 기법들에 대해 간략히 설명해본다.
 
-### 3-1. k-Nearest Neighbor-based Anomaly Detection
+### 1-3-1. k-Nearest Neighbor-based Anomaly Detection
 k-NN 기반 이상치 탐지 방법은 이름에서 볼 수 있듯이 최근접 이웃 k-NN을 응용한 것이다. k-NN은 공간 R에 객체들이 분포하고 있다고 할 때, 특정 객체는 k개의 최근접한 이웃 객체들의 주된 범주에 의해 결정되는 알고리즘이다.  
 이상치 탐지에서는 k개의 최근접 이웃들과의 거리 정보를 기반으로 이상치 점수를 계산한다. 계산된 이상치 점수와 다른 데이터들과 비교해 이상치를 판단한다. 이웃들과의 거리 정보는 3가지의 지표가 있는데, 최대거리, 이웃 객체들과의 평균거리, 이웃 객체들과 평균거리와의 거리를 이용해 이상치 점수를 구할 수 있다. 하지만 실제 적용에는 한계점이 있어 이웃들간의 convex 거리, convex hull 거리 등 추가적인 거리정보를 이용해 이상치 점수를 구해 이상치를 탐지한다.
 
-### 3-2. Clustering-based Approach
+### 1-3-2. Clustering-based Approach
 클러스터링 기반 접근법 가운데 k-means를 응용한 이상치 탐지 기법에 대해 간략히 정리해본다. k-means의 알고리즘은 다음과 같다. 먼저, 사전에 정의된 k개의 군집수에 따라 군집의 중심이 될 k개의 점을 데이터 중에서 임의로 선택한다. 이후 유클리드 거리를 이용해 데이터 포인트들 각각을 가까운 군집에 할당하고 각 군집에 속한 객체들의 평균을 계산한다. 계산된 평균을 중심으로 다시 데이터 포인트들을 재군집화하고 다시 평균을 구하는 프로세스를 변화가 없을 때까지 반복하는 알고리즘이다.  
 k-means 이상치 탐지는 객체와 가장 가까운 군집의 중심과의 절대거리, 군집의 지름을 이용하여 이상치 점수를 계산하는 기법이다.  
 
 <p align="center"><img src="./figure/fig6.png" height=100></p>
 
-### 3-3. Principal Component Analysis-based Anomaly Detection
+### 1-3-3. Principal Component Analysis-based Anomaly Detection
 PCA를 이용한 이상치 탐지 방법이다. PCA는 앞선 topic1에서 살펴보았듯이, 주어진 데이터들의 분산을 최대로 보존할 수 있는 주성분을 찾는 기법이다. 이때 분산을 최대한 보존할 수 있도록 하는 기저에 사영해 데이터의 차원을 축소하게 되는데, 축소된 차원 공간과 원데이터 공간 사이의 에러를 이상치 점수로 두는 방법이다. 즉, PCA를 사용해 데이터를 차원축소하고, 이를 다시 복원했을 때 원데이터와 비교해 복원 정도를 가지고 이상치를 탐지하는 기법이다.
 
 <p align="center"><img src="./figure/fig7.png" height=150></p>
 
-## 4. Model-based Anomaly Detection
+## 1-4. Model-based Anomaly Detection
 앞서 밀도, 거리 기반 이상치 탐지 방법론들을 살펴보았다면, 지금부터는 모델 기반의 이상치 탐지 방법론들에 대해 살펴본다.  
 
-### 4-1. Auto-Encoder
+### 1-4-1. Auto-Encoder
 AutoEncoder는 입력변수의 수보다 은닉 노드의 수가 더 적은 은닉층을 가지면서 입출력이 동일한 신경망이다. 이때 Autoencoder에 데이터를 학습시키면 encoder는 데이터의 특정 패턴을 학습해 잘 압축하려고 할 것이고, decoder는 압축된 벡터의 정보를 이용해 원 데이터와 최대한 비슷하게 출력해내도록 학습한다.
 
 <p align="center"><img src="./figure/fig8.png" height=200></p>
@@ -185,7 +185,7 @@ AutoEncoder는 입력변수의 수보다 은닉 노드의 수가 더 적은 은�
 
 추가로 autoencoder에 encoding 과정에서 노이즈를 준 뒤에 원본과 같이 복구하도록 하는 denoising AutoEncoder, Convolution 연산을 활용해 이미지 데이터의 이상치를 탐지하는 Convolutional AutoEncoder 등을 활용한 이상치 탐지 방법들도 있다.  
 
-### 4-2. Support Vector-based Anomaly Detection
+### 1-4-2. Support Vector-based Anomaly Detection
 Support Vector 기반의 이상치 탐지 방법으로는 1-SVM과 SVDD를 살펴본다. 1-SVM은 데이터를 피처공간에 매핑하고 원점과의 거리를 최대화할 수 있는 초평면을 찾는 것이 목적이다. 목적식은 SVM과 비슷한 걸 확인할 수 있다. 다만, 1-SVM은 $-\rho$ 를 통해 초평면이 원점으로부터 양의 방향으로 최대한 멀어지라는 제약과, ${{1}\over{\nu l}}\sum\xi_i$ 를 통해 초평면 아래에 존재하는 객체들에 대해 패널티를 가하도록 제약하는 부분이 추가된다. 
 
 $$
@@ -222,7 +222,7 @@ SVDD의 Support Vector는 초구 밖에 위치한 객체와 초구 위에 위치
 <p align="center"><img src="./figure/fig12.png" height=200></p>
 
 
-### 4-3. Isolation Forersts
+### 1-4-3. Isolation Forersts
 I-Forest는 소수 범주의 데이터(이상치)는 정상 범주 데이터와는 특정 속성 값이 많이 다를 가능성이 높다는 가정으로부터 시작한다. 속성 값이 다른 하나의 객체를 고립시키도록 tree를 생성하는 방법론이다. 가정이 맞다면, 아래 그림의 왼쪽과 같은 정상 데이터를 고립시키는데는 많은 분기(split)가 필요할 것이고 오른쪽 그림과 같은 이상치 데이터라면 상대적으로 적은 분기만으로 고립이 가능할 것이다.
 
 <p align="center"><img src="./figure/fig10.png" height=200></p>
