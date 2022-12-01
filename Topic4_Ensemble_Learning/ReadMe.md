@@ -179,11 +179,12 @@ Tutorial은 시각적으로 확인해보며 실험해보기 위해 Jupyer Notebo
 
 - [Tutorial Note](./Ensemble_tutorial.ipynb)
 
-### 모델 구현
+## Results
 
-1. Random Forest에서 각 모델에 다양성 확보를 위한 장치 중 하나인 Randomly chosen predictor variables를 수행하는데 있어, 최적의 개수는 몇 개인지  
-   해당 실험은 iris, wine, digit 3개의 데이터셋으로 수행해보았습니다. Randomly chosen predictor variables는 각 트리에서 분할 지점에 무작위로 샘플링되는 feature의 수를 의미하는데, 논문에서 제시한 최적의 개수는 $sqrt(D)$개 라고 언급한 바 있습니다. 이에 3개의 데이터셋을 통해 변수개수를 달리해보면서 확인해보았습니다.  
-   가장 먼저 iris 데이터셋입니다.
+### 1. Random Forest에서 각 모델에 다양성 확보를 위한 장치 중 하나인 Randomly chosen predictor variables를 수행하는데 있어, 최적의 개수는 몇 개인지.
+
+해당 실험은 iris, wine, digit 3개의 데이터셋으로 수행해보았습니다. Randomly chosen predictor variables는 각 트리에서 분할 지점에 무작위로 샘플링되는 feature의 수를 의미하는데, 논문에서 제시한 최적의 개수는 $sqrt(D)$개 라고 언급한 바 있습니다. 이에 3개의 데이터셋을 통해 변수개수를 달리해보면서 확인해보았습니다.  
+가장 먼저 iris 데이터셋입니다.
 
 <p align="center"><img src="./results/output_1.png" height=250></p>
 
@@ -207,9 +208,10 @@ Tutorial은 시각적으로 확인해보며 실험해보기 위해 Jupyer Notebo
 
 ---
 
-2. Topic2에서 배웠던 SVM을 bagging 기법을 활용해 앙상블을 수행했을 때의 실제 성능 변화 확인  
-   topic2에서 배웠던 SVM을 bagging을 사용해 앙상블 했을 때, 단일 SVM을 사용한 경우보다 성능이 얼마나 향상되는지 파악해보고자 합니다. Bagging은 모델의 variance가 높고 bias가 낮은 경우 효과를 볼 수 있는 앙상블 기법입니다.  
-   앞서 사용한 wine 데이터셋을 활용하여 단일 SVM 모델을 사용할 때의 성능을 확인해보고, 앙상블을 수행해보았습니다. SVM 모델은 kernel을 사용하지 않은 LinearSVM을 사용하였습니다.
+### 2. Topic2에서 배웠던 SVM을 bagging 기법을 활용해 앙상블을 수행했을 때의 실제 성능 변화 확인.
+
+topic2에서 배웠던 SVM을 bagging을 사용해 앙상블 했을 때, 단일 SVM을 사용한 경우보다 성능이 얼마나 향상되는지 파악해보고자 합니다. Bagging은 모델의 variance가 높고 bias가 낮은 경우 효과를 볼 수 있는 앙상블 기법입니다.  
+앞서 사용한 wine 데이터셋을 활용하여 단일 SVM 모델을 사용할 때의 성능을 확인해보고, 앙상블을 수행해보았습니다. SVM 모델은 kernel을 사용하지 않은 LinearSVM을 사용하였습니다.
 
 <p align="center"><img src="./results/output_4.png" height=250></p>
 
@@ -219,8 +221,11 @@ Tutorial은 시각적으로 확인해보며 실험해보기 위해 Jupyer Notebo
 
 > Variance가 있다고 판단하여 이를 줄이기 위해 bagging 기법을 활용하여 앙상블을 시도해보았습니다. 앙상블은 LinearSVM 10개를 쌓아 시도했습니다. 그 결과, 모델의 성능이 조금 향상되었을뿐만 아니라, variance의 변화도 줄어든 것을 확인할 수 있었습니다. 2번째 tutorial은 topic2에서 배운 알고리즘과 이번 topic4에서 배운 알고리즘을 결합하였을 때의 성능 향상을 확인하고자 한 간단한 tutorial이었습니다.
 
-3. Boosting 기법 중 Gradient Boosting Machine의 loss function을 달리했을 때의 성능 비교  
-   마지막 tutorial은 Boosting 기법 중 Gradient Boosting Machine의 loss function을 달리해보면서 성능을 비교해보았습니다. 회귀 GBM의 Loss function으로는 Squared loss, Absolute loss, Huber loss, Quantile loss을 사용할 수 있습니다. 이번 tutorial의 데이터셋은 분류가 아닌 회귀 task의 데이터셋인 boston, breast_cancer 을 사용합니다.
+--- 
+
+### 3. Boosting 기법 중 Gradient Boosting Machine의 loss function을 달리했을 때의 성능 비교.
+
+마지막 tutorial은 Boosting 기법 중 Gradient Boosting Machine의 loss function을 달리해보면서 성능을 비교해보았습니다. 회귀 GBM의 Loss function으로는 Squared loss, Absolute loss, Huber loss, Quantile loss을 사용할 수 있습니다. 이번 tutorial의 데이터셋은 분류가 아닌 회귀 task의 데이터셋인 boston, breast_cancer 을 사용합니다.
 
 먼저, boston dataset의 경우입니다. 다른 설정값은 고정하고 loss function에 따른 `learning_rate`만 최적의 하이퍼 파라미터를 탐색한 뒤, 찾아진 모델로 변화를 살펴보았습니다.
 
