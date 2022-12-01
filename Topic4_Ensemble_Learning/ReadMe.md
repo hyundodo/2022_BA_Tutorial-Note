@@ -185,19 +185,19 @@ Tutorial은 시각적으로 확인해보며 실험해보기 위해 Jupyer Notebo
    해당 실험은 iris, wine, digit 3개의 데이터셋으로 수행해보았습니다. Randomly chosen predictor variables는 각 트리에서 분할 지점에 무작위로 샘플링되는 feature의 수를 의미하는데, 논문에서 제시한 최적의 개수는 $sqrt(D)$개 라고 언급한 바 있습니다. 이에 3개의 데이터셋을 통해 변수개수를 달리해보면서 확인해보았습니다.  
    가장 먼저 iris 데이터셋입니다.
 
-<p align="center"><img src="./results/output_1.png" height=100></p>
+<p align="center"><img src="./results/output_1.png" height=250></p>
 
 > 실험 결과, `max_features`에 따라 성능이 크게 변하고 있지는 않습니다. 다만, 3개일 경우에는 교차 검증에 따라 성능 결과의 편차가 조금 있는 것으로 나타나고 있습니다. 또한, 1~2개일 경우가 3~4개인 경우보다 편차가 적고 평균 성능이 조금은 더 잘 나오고 있음을 확인할 수 있었습니다.
 
 다음으로 wine 데이터셋으로 실험한 케이스입니다.
 
-<p align="center"><img src="./results/output_2.png" height=100></p>
+<p align="center"><img src="./results/output_2.png" height=250></p>
 
 > 실험 결과, `max_features`에 따라 성능이 크게 변하고 있지는 않지만, 개수마다 조금의 차이는 있는 것으로 보입니다. 논문에서 제시한대로라면 3~4개의 변수가 적당할 것이지만, 실험 결과에서는 변수의 개수를 2개로 설정한 경우가 가장 좋은 모습입니다. 특히 3개로 설정한 경우에는 성능의 편차가 조금 있으면서 평균 성능도 다른 개수일 때보다 조금 떨어지고 있습니다.
 
 마지막으로 digit 데이터셋으로도 확인해보았습니다.
 
-<p align="center"><img src="./results/output_3.png" height=100></p>
+<p align="center"><img src="./results/output_3.png" height=300></p>
 
 > 변수의 개수가 많은만큼 개수에 따라서 다양한 차이를 보여주고 있습니다. 대체적으로 `max_features`의 개수를 많이 사용할수록 점점 앙상블의 성능이 조금씩 하락하고 있습니다. 또한, 논문에서 제시한대로 8개가 최적인지를 확인해본 결과, 반드시 해당 개수에서만 월등한 성능을 보여주고 있지는 않습니다. 다만, 변수의 개수를 적게 사용할수록 많이 사용할 때(32개 이상)보다 성능을 조금 더 좋은 모습을 보여주고 있기 때문에 절반 이하의 개수를 사용해 분기를 하는 것이 좋아보이고, 절반 이하의 개수를 사용할 때 평균 성능에 큰 차이가 없기 때문에 default 값을 사용해도 무방할 것으로 사료됩니다.
 
@@ -211,11 +211,11 @@ Tutorial은 시각적으로 확인해보며 실험해보기 위해 Jupyer Notebo
    topic2에서 배웠던 SVM을 bagging을 사용해 앙상블 했을 때, 단일 SVM을 사용한 경우보다 성능이 얼마나 향상되는지 파악해보고자 합니다. Bagging은 모델의 variance가 높고 bias가 낮은 경우 효과를 볼 수 있는 앙상블 기법입니다.  
    앞서 사용한 wine 데이터셋을 활용하여 단일 SVM 모델을 사용할 때의 성능을 확인해보고, 앙상블을 수행해보았습니다. SVM 모델은 kernel을 사용하지 않은 LinearSVM을 사용하였습니다.
 
-<p align="center"><img src="./results/output_4.png" height=100></p>
+<p align="center"><img src="./results/output_4.png" height=250></p>
 
 > 단일 SVM을 5-fold 교차검증을 통해 성능을 확인해본 결과, 그래프에서 보시는 것과 같이 데이터에 따라서 모델의 성능 편차가 다소 있는 것으로 확인되었습니다.
 
-<p align="center"><img src="./results/output_5.png" height=100></p>
+<p align="center"><img src="./results/output_5.png" height=250></p>
 
 > Variance가 있다고 판단하여 이를 줄이기 위해 bagging 기법을 활용하여 앙상블을 시도해보았습니다. 앙상블은 LinearSVM 10개를 쌓아 시도했습니다. 그 결과, 모델의 성능이 조금 향상되었을뿐만 아니라, variance의 변화도 줄어든 것을 확인할 수 있었습니다. 2번째 tutorial은 topic2에서 배운 알고리즘과 이번 topic4에서 배운 알고리즘을 결합하였을 때의 성능 향상을 확인하고자 한 간단한 tutorial이었습니다.
 
@@ -238,6 +238,6 @@ Results of MSE differencing Loss fucntion:  [0.04182488700085189, 0.397660818713
 
 loss fucntion 변화에 따라서 성능이 크게 변화하고 있지는 않았습니다. 다만, L1 loss와 huber loss를 사용한 경우 다른 2개의 loss를 사용한 경우보다 mse 값이 상대적으로 컸음을 확인할 수 있습니다.
 
-<p align="center"><img src="./results/output_6.png" height=100></p>
+<p align="center"><img src="./results/output_6.png" height=200></p>
 
 > 시각적으로 loss 변화에 따라서 MSE를 비교해보았습니다. 해당 함수에서 제안하는 default값인 L2 loss를 사용하는 것이 가장 적절할 것으로 판단됩니다. 물론, 어느 loss function을 사용할 것인지는 dataset의 특성에 따라서 분석 목적에 따라서 분석자가 정해야 하겠습니다.
