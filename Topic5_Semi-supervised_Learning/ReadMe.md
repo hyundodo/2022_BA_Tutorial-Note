@@ -122,6 +122,11 @@ UDA는 많은 사람들이 연구해 놓은 방법론의 좋은 augmentation 기
 
 <p align="center"><img src="./figure/fig11.png" height=200></p>
 
+
+### reference)  
+- https://github.com/CuriousAI/mean-teacher/tree/master/pytorch
+- 고려대학교 강필성 교수님 비즈니스애널리틱스 강의자료(2022 Fall)  
+
 ---
 
 # 2. Tutorial Note
@@ -534,4 +539,5 @@ def JSD(input_logits, target_logits):
 
 ---
 ### reference)  
-https://github.com/CuriousAI/mean-teacher/tree/master/pytorch
+- https://github.com/CuriousAI/mean-teacher/tree/master/pytorch  
+- https://arxiv.org/pdf/1703.01780v6.pdf
