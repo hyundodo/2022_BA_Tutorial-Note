@@ -19,13 +19,13 @@
       - [Mean Teacher](#2-5-mean-teacher)
       - [Dual Students](#2-6-dual-students)
       - [fastSWA](#2-7-fastswa)
-      - [VAT](#2-8-vat)
+      - [VAT](#2-8-vatvirtual-adversarial-training)
       - [Adversarial Dropout](#2-9-adversarial-dropout)
-      - [ICT](#2-10-ict)
-      - [UDA](#2-11-uda)
+      - [ICT](#2-10-ictinterpolation-consistency-training)
+      - [UDA](#2-11-udaunsupervised-data-augmentation)
 
 2. Tutorial Note
-   - [Ensemble Learning Tutorial](#ensemble-learning-tutorial)
+   - [Semi-supervised Learning Tutorial](#2-tutorial-note)
 
 ---
 
