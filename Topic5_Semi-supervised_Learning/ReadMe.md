@@ -13,8 +13,8 @@
    1. Overview
    2. Consistency Regularization
       - [Ladder Network](#2-1-ladder-network)
-      - [$\Gamma$ -Model](#2-2--model)
-      - [$\Pi$ -Model](#2-3--model)
+      - [Gamma-Model](#2-2--model)
+      - [Pi-Model](#2-3--model)
       - [Temporal Ensemble](#2-4-temporal-ensemble)
       - [Mean Teacher](#2-5-mean-teacher)
       - [Dual Students](#2-6-dual-students)
