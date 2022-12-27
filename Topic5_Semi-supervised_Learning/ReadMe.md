@@ -231,6 +231,7 @@ $$
 모델은 ResNet 아키텍처를 이용해서 Mean Teacher 방법론으로 semi-supervised 방식으로 학습됩니다. 핵심 코드 부분만 보면, 코드의 흐름을 파악할 수 있습니다. 전체 코드는 method 폴더 안에 소스코드에서 확인할 수 있습니다.  
 
 ### Backbone 모델 ResNet-32 정의 code
+
 ```python
 class ResNet32x32(nn.Module):
     def __init__(self, block, layers, channels, groups=1, num_classes=1000, downsample='basic'):
@@ -396,6 +397,7 @@ class ShiftConvDownsample(nn.Module):
 
 ### Mean Teacher 방법 구현 code
 student와 teacher 모델을 각각 model, ema_model로 정의하고, 각 mini-batch가 끝날 때마다 model의 파라미터를 ema_model에 업데이트합니다. 
+
 ```python
 # ema update
 def update_ema_variables(model, ema_model, alpha, global_step):
@@ -508,6 +510,7 @@ def train(train_loader, model, ema_model, optimizer, epoch, log):
 
 ### consistency loss 정의 code
 본 tutorial의 실험을 위해 MSE, KL divergence, JS Divergence 3가지 loss를 각각 정의하고 main.py의 train 함수에서 작동할 수 있도록 했습니다.  
+
 ```python
 # MSE Loss
 def softmax_mse_loss(input_logits, target_logits):
