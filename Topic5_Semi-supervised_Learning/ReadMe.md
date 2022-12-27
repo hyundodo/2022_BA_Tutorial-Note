@@ -72,6 +72,7 @@ Temporal Ensemble은 이전 모델들은 학습과정에서 매번 업데이트�
 $$
 Z \leftarrow \alpha Z + (1-\alpha)z
 $$
+
 $$
 \tilde z \leftarrow Z / (1-\alpha^t)
 $$
