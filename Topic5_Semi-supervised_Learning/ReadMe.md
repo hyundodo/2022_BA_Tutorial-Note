@@ -68,10 +68,12 @@ $\Pi$-Model(파이모델)부터는 1개의 모델에서 consistency를 수행한
 
 ### 2-4. Temporal Ensemble
 Temporal Ensemble은 이전 모델들은 학습과정에서 매번 업데이트를 수행하니 noise에 영향을 너무 많이 받아 업데이트가 너무 크게 변한다는 한계점을 지적하면서 시작한다. 이에 저자들은 매번 업데이트를 수행하지 말고, 과거 예측한 값들을 누적해서 smoothing하고자 했다.  
+
 $$
 Z \leftarrow \alpha Z + (1-\alpha)z  \\
 \tilde z \leftarrow Z / (1-\alpha^t)
 $$
+
 한 Epoch마다 전체 데이터셋을 input하여 예측한 output의 분포 Z를 누적해서 저장한다. 이후 모델의 결과로 나온 $z$와 $\tilde z$를 비교하며 학습을 수행한다. 즉, target 분포 Z를 누적해서 앙상블 효과를 가져올 수 있도록 한 것이 특징이다.  
 
 <p align="center"><img src="./figure/fig5.png" height=200></p>
@@ -164,30 +166,41 @@ Tutorial은 논문의 저자들이 github에 공개한 소스코드를 불러와
 ### 2. Consistency loss를 MSE, KL-Divergence, Jensen-Shannon Divergence를 각각 사용해서 학습한 뒤, loss의 흐름 시각화
 - 아래 수식에 해당하는 student 모델의 output과 teacher 모델의 output 사이에 3가지 loss를 사용해 평가해본 결과
 
+
 $$
 J(\theta)=E_{x, \eta^{'}, \eta}[\parallel f(x, \theta^{'}, \eta^{'})-f(x, \theta, \eta) \parallel ^2]
 $$
 
+
 - MSE Loss
+
+
 $$
 d_{MSE}(f(x, \theta^{'}, \eta^{'})-f(x, \theta, \eta)) = {{1}\over{C}}\sum_{k=1}^C (f(x, \theta^{'}, \eta^{'})_k-f(x, \theta, \eta)_k)
 $$
 
+
 <p align="center"><img src="./figure/res1.png" height=250></p>
 
 - KL Divergence Loss
+
+
 $$
 d_{KL}(f(x, \theta^{'}, \eta^{'})-f(x, \theta, \eta))={{1}\over{C}} \sum_{k=1}^C f(x, \theta, \eta)_k log {{f(x, \theta, \eta)_k}\over{f(x, \theta^{'}, \eta^{'})_k}}
 $$
+
 
 <p align="center"><img src="./figure/res2.png" height=250></p>
 
 > 실험결과, Consistency loss를 KL Divergence로 사용했을 때 consistency는 수렴하고 있는 모습인 반면, supervised loss가 학습이 계속 진행됨에도 줄지 않는 모습이었습니다.
 
 - Jensen-Shannon Divergence Loss
+
+
 $$
 d_{JS}(f(x, \theta, \eta),f(x, \theta^{'}, \eta^{'}))={{1}\over{2}}d_{KL}(f(x, \theta, \eta),m) + {{1}\over{2}}d_{KL}(f(x, \theta^{'}, \eta^{'}),m) 
 $$
+
 
 <p align="center"><img src="./figure/res3.png" height=250></p>
 
