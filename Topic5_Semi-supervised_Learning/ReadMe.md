@@ -123,7 +123,7 @@ UDA는 많은 사람들이 연구해 놓은 방법론의 좋은 augmentation 기
 <p align="center"><img src="./figure/fig11.png" height=200></p>
 
 
-### reference)  
+### Reference)  
 - https://github.com/CuriousAI/mean-teacher/tree/master/pytorch
 - 고려대학교 강필성 교수님 비즈니스애널리틱스 강의자료(2022 Fall)  
 
@@ -154,7 +154,7 @@ Tutorial은 논문의 저자들이 github에 공개한 소스코드를 불러와
 
 학습 과정의 loss와 acc는 results 폴더에 pickle 파일로 저장되어 있으며, 해당 실험에 확인하고자 한 학습 과정의 loss 시각화 코드는 results 폴더의 results_visulize.ipynb 파일에서 확인할 수 있습니다.  
 
-- [results visualization](./results/results_visualize.ipynb)
+- [Visualize Results](./results/results_visualize.ipynb)
 
 
   
@@ -229,7 +229,8 @@ $$
 ---
 ## 모델구현
 모델은 ResNet 아키텍처를 이용해서 Mean Teacher 방법론으로 semi-supervised 방식으로 학습됩니다. 핵심 코드 부분만 보면, 코드의 흐름을 파악할 수 있습니다. 전체 코드는 method 폴더 안에 소스코드에서 확인할 수 있습니다.  
-### Backbone 모델 ResNet-32 정의  
+
+### Backbone 모델 ResNet-32 정의 code
 ```python
 class ResNet32x32(nn.Module):
     def __init__(self, block, layers, channels, groups=1, num_classes=1000, downsample='basic'):
@@ -393,7 +394,7 @@ class ShiftConvDownsample(nn.Module):
         return x
 ```
 
-### Mean Teacher 방법론
+### Mean Teacher 방법 구현 code
 student와 teacher 모델을 각각 model, ema_model로 정의하고, 각 mini-batch가 끝날 때마다 model의 파라미터를 ema_model에 업데이트합니다. 
 ```python
 # ema update
@@ -505,7 +506,7 @@ def train(train_loader, model, ema_model, optimizer, epoch, log):
         end = time.time()
 ```
 
-### consistency loss 정의
+### consistency loss 정의 code
 본 tutorial의 실험을 위해 MSE, KL divergence, JS Divergence 3가지 loss를 각각 정의하고 main.py의 train 함수에서 작동할 수 있도록 했습니다.  
 ```python
 # MSE Loss
@@ -538,6 +539,6 @@ def JSD(input_logits, target_logits):
 
 
 ---
-### reference)  
+### Reference)  
 - https://github.com/CuriousAI/mean-teacher/tree/master/pytorch  
 - https://arxiv.org/pdf/1703.01780v6.pdf
