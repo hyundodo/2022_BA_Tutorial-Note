@@ -158,7 +158,7 @@ Tutorial은 논문의 저자들이 github에 공개한 소스코드를 불러와
 논문에서 제시한 학습 epoch 수는 180이지만, 본 실험에서는 모델을 끝까지 학습하는 것보다는 tutorial 목적에 따른 학습 양상을 보고자하는데 목적이 있어 30 epoch만 수행했습니다. 데이터는 앞서 제시한대로 cifar-10 데이터셋을 사용하였고, 모델은 ResNet-32 모델을 백본으로 사용했습니다.  
 
 
-### 1. consistency loss가 줄어들지 않는지 확인
+### 1. Consistency loss가 줄어들지 않는지 확인
 논문에서 저자들이 사용한 MSE Loss를 consistency loss로 사용했을 때의 학습 loss를 시각화해본 결과입니다.
 
 <p align="center"><img src="./figure/res1.png" height=250></p>
