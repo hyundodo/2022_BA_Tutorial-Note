@@ -70,7 +70,9 @@ $\Pi$-Model(파이모델)부터는 1개의 모델에서 consistency를 수행한
 Temporal Ensemble은 이전 모델들은 학습과정에서 매번 업데이트를 수행하니 noise에 영향을 너무 많이 받아 업데이트가 너무 크게 변한다는 한계점을 지적하면서 시작한다. 이에 저자들은 매번 업데이트를 수행하지 말고, 과거 예측한 값들을 누적해서 smoothing하고자 했다.  
 
 $$
-Z \leftarrow \alpha Z + (1-\alpha)z  \\
+Z \leftarrow \alpha Z + (1-\alpha)z
+$$
+$$
 \tilde z \leftarrow Z / (1-\alpha^t)
 $$
 
